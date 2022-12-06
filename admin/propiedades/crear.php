@@ -10,20 +10,20 @@ include '../../includes/templates/header.php';
     <h1>Registrar Propiedades</h1>
     <a href="/bienesraices/admin/" class="boton boton-verde">Volver</a>
 
-    <form class="formulario">
+    <form class="formulario" method="POST" action="/admin/propiedades/crear.php">
         <fieldset>
             <legend>Infomracion General</legend>
             <label for="titulo">Titulo:</label>
-            <input type="text" id="titulo" placeholder="Titulo Propiedad">
+            <input type="text" id="titulo" name="titulo" placeholder="Titulo Propiedad">
 
             <label for="precio">Precio:</label>
-            <input type="text" id="precio" placeholder="Precio Propiedad">
+            <input type="text" id="precio" name="precio" placeholder="Precio Propiedad">
 
             <label for="imagen">Iamgen:</label>
             <input type="file" id="imagen" accept="image/jpeg, image/png">
 
             <label for="descripcion">Descripcion:</label>
-            <textarea name="" id="descripcion" cols="30" rows="10"></textarea>
+            <textarea name="" id="descripcion" name="descripcion" cols="30" rows="10"></textarea>
         </fieldset>
 
         <fieldset>

@@ -1,5 +1,5 @@
-    <?php 
-    $inicio=true;
+    <?php
+    $inicio = true;
     include './includes/templates/header.php';
     ?>
 
@@ -59,8 +59,10 @@
                     <a href="anuncio.html" class="boton-amarillo-block">
                         Ver Propiedad
                     </a>
-                </div><!--.contenido-anuncio-->
-            </div><!--anuncio-->
+                </div>
+                <!--.contenido-anuncio-->
+            </div>
+            <!--anuncio-->
 
             <div class="anuncio">
                 <picture>
@@ -92,8 +94,10 @@
                     <a href="anuncio.html" class="boton-amarillo-block">
                         Ver Propiedad
                     </a>
-                </div><!--.contenido-anuncio-->
-            </div><!--anuncio-->
+                </div>
+                <!--.contenido-anuncio-->
+            </div>
+            <!--anuncio-->
 
             <div class="anuncio">
                 <picture>
@@ -125,10 +129,13 @@
                     <a href="anuncio.html" class="boton-amarillo-block">
                         Ver Propiedad
                     </a>
-                </div><!--.contenido-anuncio-->
-            </div><!--anuncio-->
+                </div>
+                <!--.contenido-anuncio-->
+            </div>
+            <!--anuncio-->
 
-        </div> <!--.contenedor-anuncios-->
+        </div>
+        <!--.contenedor-anuncios-->
 
         <div class="alinear-derecha">
             <a href="anuncios.html" class="boton-verde">Ver Todas</a>
@@ -199,7 +206,6 @@
             </div>
         </section>
     </div>
-<?php 
+    <?php
     include './includes/templates/footer.php';
-?>
-   
+    ?>
