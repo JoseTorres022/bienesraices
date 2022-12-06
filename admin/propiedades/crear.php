@@ -9,6 +9,9 @@ $db = conectarDB();
 // var_dump($_POST);
 // echo "</pre>";
 
+//consultar dtos de los vendedores
+$consulta = "SELECT * FROM vendedores";
+$resultado = mysqli_query($db, $consulta);
 //arreglo con mensaje de errores
 $errores = [];
 
@@ -28,15 +31,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // var_dump($_POST);
     // echo "</pre>";
 
-    $nombre = $_POST['nombre'];
-    $precio = $_POST['precio'];
-    $descripcion = $_POST['descripcion'];
-    $habitaciones = $_POST['habitaciones'];
-    $wc = $_POST['wc'];
-    $estacionamiento = $_POST['estacionamiento'];
-    $vendedorId = $_POST['vendedor'];
+    //Sanitizando el formulario
+    $nombre =mysqli_real_escape_string($db, $_POST['nombre']);
+    $precio =mysqli_real_escape_string($db, $_POST['precio']);
+    $descripcion =mysqli_real_escape_string($db, $_POST['descripcion']);
+    $habitaciones =mysqli_real_escape_string($db, $_POST['habitaciones']);
+    $wc =mysqli_real_escape_string($db, $_POST['wc']);
+    $estacionamiento =mysqli_real_escape_string($db, $_POST['estacionamiento']);
+    $vendedorId =mysqli_real_escape_string($db, $_POST['vendedor']);
+    $creado=date('Y/m/d');
 
-
+    //validacione de los datos en el formulario con mensaje de errores
     if (!$nombre) {
         $errores[] = "Titulo de la propiedad es obligatoria";
     }
@@ -69,14 +74,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     //revisar que el arreglo de errores este vacio
     if (empty($errores)) {
         //insertar datos en la base de datos
-        $query = "INSERT INTO propiedades (nombre, precio, descripcion, habitaciones, wc, estacionamiento, vendedorId)
-VALUES ('$nombre','$precio','$descripcion','$habitaciones','$wc','$estacionamiento','$vendedorId')";
+        $query = "INSERT INTO propiedades (nombre, precio, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId)
+VALUES ('$nombre','$precio','$descripcion','$habitaciones','$wc','$estacionamiento','$creado','$vendedorId')";
 
         // echo $query;
 
         $resultado = mysqli_query($db, $query);
         if ($resultado) {
-            echo "datos correctos";
+            // echo "datos correctos";
+            header('Location: /bienesraices/admin');
         }
     }
 
@@ -101,9 +107,9 @@ include '../../includes/templates/header.php';
     <a href="/bienesraices/admin/" class="boton boton-verde">Volver</a>
 
     <?php foreach ($errores as $error) : ?>
-        <div class="alerta error">
-            <?php echo $error; ?>
-        </div>
+    <div class="alerta error">
+        <?php echo $error; ?>
+    </div>
     <?php endforeach; ?>
 
     <form class="formulario" method="POST" action="/bienesraices/admin/propiedades/crear.php">
@@ -120,30 +126,38 @@ include '../../includes/templates/header.php';
             <input type="file" id="imagen" accept="image/jpeg, image/png">
 
             <label for="descripcion">Descripcion:</label>
-            <textarea id="descripcion" name="descripcion" cols="30" rows="10" value="<?php echo $descripcion ?>"></textarea>
+            <textarea id="descripcion" name="descripcion" cols="30" rows="10"
+                value="<?php echo $descripcion ?>"></textarea>
         </fieldset>
 
         <fieldset>
 
             <legend>Informacion de la propiedad</legend>
             <label for="habitaciones">Habitaciones:</label>
-            <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej: 3" min="1" max="10" value="<?php echo $habitaciones ?>">
+            <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej: 3" min="1" max="10"
+                value="<?php echo $habitaciones ?>">
 
             <label for="wc">Baños:</label>
             <input type="number" id="wc" name="wc" placeholder="Ej: 3" min="1" max="10" value="<?php echo $wc ?>">
 
             <label for="estacionamiento">Estacionamiento:</label>
-            <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej: 3" min="1" max="10" value="<?php echo $estacionamiento ?>">
+            <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej: 3" min="1" max="10"
+                value="<?php echo $estacionamiento ?>">
         </fieldset>
 
         <fieldset>
             <legend>Vendedor</legend>
-            <select name="vendedor" id="vendedor">
+
+            <select name="vendedor">
                 <option value="">--- Seleccione ---</option>
-                <option value="1">Juan</option>
-                <option value="2">KAren</option>
+                <?php while ($vendedor = mysqli_fetch_assoc($resultado)) : ?>
+                <option <?php echo $vendedorId === $vendedor['id'] ? 'selected' : ''; ?>
+                    value=" <?php echo $vendedor['id']; ?> ">
+                    <?php echo $vendedor['nombre'] . " " . $vendedor['apellido']; ?></option>
+                <?php endwhile; ?>
             </select>
         </fieldset>
+
         <input type="submit" value="Registrar Propiedad" class="boton boton-verde">
     </form>
 </main>
