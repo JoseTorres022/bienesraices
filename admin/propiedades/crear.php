@@ -12,6 +12,16 @@ $db = conectarDB();
 //arreglo con mensaje de errores
 $errores = [];
 
+//Guardar valores previos del formulario cuando faltan datos.
+$nombre = '';
+$precio = '';
+$descripcion = '';
+$habitaciones = '';
+$wc = '';
+$estacionamiento = '';
+$vendedorId = '';
+
+
 //ejecutar el codigo despues de lo que hace el usuario
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // echo "<pre>";
@@ -33,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$precio) {
         $errores[] = "Precio de la propiedad es obligatoria";
     }
-    if (strlen($descripcion) < 20) {
+    if (strlen($descripcion) < 10) {
         $errores[] = "Descripcion de la propiedad es obligatoria";
     }
     if (!$habitaciones) {
@@ -98,31 +108,32 @@ include '../../includes/templates/header.php';
 
     <form class="formulario" method="POST" action="/bienesraices/admin/propiedades/crear.php">
         <fieldset>
+            <!-- CON LA PROPIEDAD VALUE, DEJAMOS ALMACENADO EL DATO EN EL FOMRULARIO, AUNQUE FALTEN DATOS -->
             <legend>Infomracion General</legend>
             <label for="nombre">Titulo:</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Titulo Propiedad">
+            <input type="text" id="nombre" name="nombre" placeholder="Titulo Propiedad" value="<?php echo $nombre ?>">
 
             <label for="precio">Precio:</label>
-            <input type="text" id="precio" name="precio" placeholder="Precio Propiedad">
+            <input type="text" id="precio" name="precio" placeholder="Precio Propiedad" value="<?php echo $precio ?>">
 
             <label for="imagen">Iamgen:</label>
             <input type="file" id="imagen" accept="image/jpeg, image/png">
 
             <label for="descripcion">Descripcion:</label>
-            <textarea id="descripcion" name="descripcion" cols="30" rows="10"></textarea>
+            <textarea id="descripcion" name="descripcion" cols="30" rows="10" value="<?php echo $descripcion ?>"></textarea>
         </fieldset>
 
         <fieldset>
 
             <legend>Informacion de la propiedad</legend>
             <label for="habitaciones">Habitaciones:</label>
-            <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej: 3" min="1" max="10">
+            <input type="number" id="habitaciones" name="habitaciones" placeholder="Ej: 3" min="1" max="10" value="<?php echo $habitaciones ?>">
 
             <label for="wc">Baños:</label>
-            <input type="number" id="wc" name="wc" placeholder="Ej: 3" min="1" max="10">
+            <input type="number" id="wc" name="wc" placeholder="Ej: 3" min="1" max="10" value="<?php echo $wc ?>">
 
             <label for="estacionamiento">Estacionamiento:</label>
-            <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej: 3" min="1" max="10">
+            <input type="number" id="estacionamiento" name="estacionamiento" placeholder="Ej: 3" min="1" max="10" value="<?php echo $estacionamiento ?>">
         </fieldset>
 
         <fieldset>
