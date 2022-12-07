@@ -1,6 +1,20 @@
 <?php
+//Validando la URL, pa' que nadie se ponga a jugar.
+$id = $_GET['id'];
+$id = filter_var($id, FILTER_VALIDATE_INT);
+
+// if ($id) {
+//     header('Location: /bienesraices/admin');
+// }
+//Base de datos
 include '../../includes/config/database.php';
 $db = conectarDB();
+
+//Obtener los datos de la propiedad
+$consulta = "SELECT * FROM propiedades WHERE id=${id}";
+$resultado = mysqli_query($db, $consulta);
+$propiedad = mysqli_fetch_assoc($resultado);
+
 //mostrar los datos de los propiedades delsistema
 // var_dump($db);
 
@@ -16,13 +30,14 @@ $resultado = mysqli_query($db, $consulta);
 $errores = [];
 
 //Guardar valores previos del formulario cuando faltan datos.
-$nombre = '';
-$precio = '';
-$descripcion = '';
-$habitaciones = '';
-$wc = '';
-$estacionamiento = '';
-$vendedorId = '';
+$nombre = $propiedad['nombre'];
+$precio = $propiedad['precio'];
+$descripcion = $propiedad['descripcion'];
+$habitaciones = $propiedad['habitaciones'];
+$wc = $propiedad['wc'];
+$estacionamiento = $propiedad['estacionamiento'];
+$vendedorId = $propiedad['vendedorId'];
+$imagenPropiedad = $propiedad['imagen'];
 
 
 //ejecutar el codigo despues de lo que hace el usuario
@@ -67,13 +82,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $errores[] = "Elige un vendedor";
     }
 
-    if (!$imagen['name']) {
-        $errores[] = "La imagen es obligatoria";
-    }
+    // if (!$imagen['name']) {
+    //     $errores[] = "La imagen es obligatoria";
+    // }
 
-    // valodar por tamaño en la subida de imagenes
+    //valodar por tamaño en la subida de imagenes
     $medida = 10000 * 10000;
-
     if ($imagen['size'] > $medida) {
         $errores[] = "La imagen es muy pesada";
     }
@@ -89,32 +103,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (empty($errores)) {
         //Subir archivos al servidor
 
-        //Crear carpeta
+
+        // //Crear carpeta
         $carpetaImagenes = '../../imagenes/';
         if (!is_dir($carpetaImagenes)) {
             mkdir($carpetaImagenes);
         }
 
-        //Generar nombre unica a cada arhivo subido al servidor
-        $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
+        //eliminar la imagen anterior y se guarda la iamgen nueva.
+        if ($imagen['name']) {
+            // echo ()
+            unlink($carpetaImagenes . $propiedad['imagen']);
+
+            // //Generar nombre unica a cada arhivo subido al servidor
+            $nombreImagen = md5(uniqid(rand(), true)) . ".jpg";
 
 
-        //subir la imagen
-        move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+            // //subir la imagen
+            move_uploaded_file($imagen['tmp_name'], $carpetaImagenes . $nombreImagen);
+        } else {
+            $nombreImagen = $propiedad['imagen'];
+        }
+
+
 
         //exit;
 
 
-        //insertar datos en la base de datos
-        $query = "INSERT INTO propiedades (nombre, precio, imagen, descripcion, habitaciones, wc, estacionamiento, creado, vendedorId)
-VALUES ('$nombre','$precio','$nombreImagen','$descripcion','$habitaciones','$wc','$estacionamiento','$creado','$vendedorId')";
-
+        //Actualizar datos en la base de datos
+        $query = "UPDATE propiedades 
+        SET nombre='${nombre}', precio='${precio}',imagen='${nombreImagen}',descripcion='${descripcion}',habitaciones=${habitaciones},
+        wc=${wc},estacionamiento=${estacionamiento},vendedorId=${vendedorId}
+        WHERE id=${id}";
         // echo $query;
 
         $resultado = mysqli_query($db, $query);
         if ($resultado) {
             // echo "datos correctos";
-            header('Location: /bienesraices/admin?resultado=1');
+            header('Location: /bienesraices/admin?resultado=2');
         }
     }
 
@@ -135,7 +161,7 @@ include '../../includes/templates/header.php';
 ?>
 
 <main class="contenedor seccion">
-    <h1>Registrar Propiedades</h1>
+    <h1>Actualizar Propiedad</h1>
     <a href="/bienesraices/admin/" class="boton boton-verde">Volver</a>
 
     <?php foreach ($errores as $error) : ?>
@@ -144,7 +170,7 @@ include '../../includes/templates/header.php';
         </div>
     <?php endforeach; ?>
 
-    <form class="formulario" method="POST" action="/bienesraices/admin/propiedades/crear.php" enctype="multipart/form-data">
+    <form class="formulario" method="POST" enctype="multipart/form-data">
         <fieldset>
             <!-- CON LA PROPIEDAD VALUE, DEJAMOS ALMACENADO EL DATO EN EL FOMRULARIO, AUNQUE FALTEN DATOS -->
             <legend>Infomracion General</legend>
@@ -156,6 +182,7 @@ include '../../includes/templates/header.php';
 
             <label for="imagen">Iamgen:</label>
             <input type="file" id="imagen" accept="image/jpeg, image/png" name="imagen">
+            <img src="/bienesraices/imagenes/" <?php echo $imagenPropiedad; ?> class="imagen-scala">
 
             <label for="descripcion">Descripcion:</label>
             <textarea id="descripcion" name="descripcion" cols="30" rows="10" value="<?php echo $descripcion ?>"></textarea>
@@ -186,7 +213,7 @@ include '../../includes/templates/header.php';
             </select>
         </fieldset>
 
-        <input type="submit" value="Registrar Propiedad" class="boton boton-verde">
+        <input type="submit" value="Actualizar Propiedad" class="boton boton-verde">
     </form>
 </main>
 
