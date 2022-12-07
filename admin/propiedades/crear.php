@@ -114,7 +114,7 @@ VALUES ('$nombre','$precio','$imagen','$descripcion','$habitaciones','$wc','$est
         $resultado = mysqli_query($db, $query);
         if ($resultado) {
             // echo "datos correctos";
-            header('Location: /bienesraices/admin');
+            header('Location: /bienesraices/admin?resultado=1');
         }
     }
 
