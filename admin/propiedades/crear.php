@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$precio) {
         $errores[] = "Precio de la propiedad es obligatoria";
     }
-    if (strlen($descripcion) < 50) {
+    if (strlen($descripcion) < 25) {
         $errores[] = "Descripcion de la propiedad es obligatoria";
     }
     if (!$habitaciones) {
