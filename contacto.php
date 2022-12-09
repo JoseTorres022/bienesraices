@@ -1,76 +1,78 @@
-<?php
-include './includes/templates/header.php';
+<?php 
+    require 'includes/funciones.php';
+    incluirTemplate('header');
 ?>
-<main class="contenedor seccion">
-    <h1>Contacto</h1>
 
-    <picture>
-        <source srcset="build/img/destacada3.webp" type="image/webp">
-        <source srcset="build/img/destacada3.jpg" type="image/jpeg">
-        <img loading="lazy" src="build/img/destacada3.jpg" alt="Imagen Contacto">
-    </picture>
+    <main class="contenedor seccion">
+        <h1>Contacto</h1>
 
-    <h2>Llene el formulario de Contacto</h2>
+        <picture>
+            <source srcset="build/img/destacada3.webp" type="image/webp">
+            <source srcset="build/img/destacada3.jpg" type="image/jpeg">
+            <img loading="lazy" src="build/img/destacada3.jpg" alt="Imagen Contacto">
+        </picture>
 
-    <form class="formulario">
-        <fieldset>
-            <legend>Información Personal</legend>
+        <h2>Llene el formulario de Contacto</h2>
 
-            <label for="nombre">Nombre</label>
-            <input type="text" placeholder="Tu Nombre" id="nombre">
+        <form class="formulario">
+            <fieldset>
+                <legend>Información Personal</legend>
 
-            <label for="email">E-mail</label>
-            <input type="email" placeholder="Tu Email" id="email">
+                <label for="nombre">Nombre</label>
+                <input type="text" placeholder="Tu Nombre" id="nombre">
 
-            <label for="telefono">Teléfono</label>
-            <input type="tel" placeholder="Tu Teléfono" id="telefono">
+                <label for="email">E-mail</label>
+                <input type="email" placeholder="Tu Email" id="email">
 
-            <label for="mensaje">Mensaje:</label>
-            <textarea id="mensaje"></textarea>
-        </fieldset>
+                <label for="telefono">Teléfono</label>
+                <input type="tel" placeholder="Tu Teléfono" id="telefono">
 
-        <fieldset>
-            <legend>Información sobre la propiedad</legend>
+                <label for="mensaje">Mensaje:</label>
+                <textarea id="mensaje"></textarea>
+            </fieldset>
 
-            <label for="opciones">Vende o Compra:</label>
-            <select id="opciones">
-                <option value="" disabled selected>-- Seleccione --</option>
-                <option value="Compra">Compra</option>
-                <option value="Vende">Vende</option>
-            </select>
+            <fieldset>
+                <legend>Información sobre la propiedad</legend>
 
-            <label for="presupuesto">Precio o Presupuesto</label>
-            <input type="number" placeholder="Tu Precio o Presupuesto" id="presupuesto">
+                <label for="opciones">Vende o Compra:</label>
+                <select id="opciones">
+                    <option value="" disabled selected>-- Seleccione --</option>
+                    <option value="Compra">Compra</option>
+                    <option value="Vende">Vende</option>
+                </select>
 
-        </fieldset>
+                <label for="presupuesto">Precio o Presupuesto</label>
+                <input type="number" placeholder="Tu Precio o Presupuesto" id="presupuesto">
 
-        <fieldset>
-            <legend>Información sobre la propiedad</legend>
+            </fieldset>
 
-            <p>Como desea ser contactado</p>
+            <fieldset>
+                <legend>Información sobre la propiedad</legend>
 
-            <div class="forma-contacto">
-                <label for="contactar-telefono">Teléfono</label>
-                <input name="contacto" type="radio" value="telefono" id="contactar-telefono">
+                <p>Como desea ser contactado</p>
 
-                <label for="contactar-email">E-mail</label>
-                <input name="contacto" type="radio" value="email" id="contactar-email">
-            </div>
+                <div class="forma-contacto">
+                    <label for="contactar-telefono">Teléfono</label>
+                    <input name="contacto" type="radio" value="telefono" id="contactar-telefono">
 
-            <p>Si eligió teléfono, elija la fecha y la hora</p>
+                    <label for="contactar-email">E-mail</label>
+                    <input name="contacto" type="radio" value="email" id="contactar-email">
+                </div>
 
-            <label for="fecha">Fecha:</label>
-            <input type="date" id="fecha">
+                <p>Si eligió teléfono, elija la fecha y la hora</p>
 
-            <label for="hora">Hora:</label>
-            <input type="time" id="hora" min="09:00" max="18:00">
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha">
 
-        </fieldset>
+                <label for="hora">Hora:</label>
+                <input type="time" id="hora" min="09:00" max="18:00">
 
-        <input type="submit" value="Enviar" class="boton-verde">
-    </form>
-</main>
+            </fieldset>
 
-<?php
-include './includes/templates/footer.php';
+            <input type="submit" value="Enviar" class="boton-verde">
+        </form>
+    </main>
+
++<?php 
+    incluirTemplate('footer');
 ?>
