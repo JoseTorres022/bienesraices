@@ -1,0 +1,17 @@
+{
+    "name": "josetorres/bienesraices",
+    "description": "Estructurando POO y MVC",
+    "type": "project",
+    "authors": [
+        {
+            "name": "JoseTorres022",
+            "email": "joseangel.tosa@outlook.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\":"./clases"
+        }
+    }
+}
